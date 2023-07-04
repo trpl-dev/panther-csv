@@ -1,7 +1,8 @@
-from langchain.agents import create_csv_agent
+from langchain.agents import create_pandas_dataframe_agent
 from langchain.llms import OpenAI
 from dotenv import load_dotenv
 import os
+import pandas as pd
 import streamlit as st
 
 
@@ -20,9 +21,9 @@ def main():
 
     csv_file = st.file_uploader("Upload a CSV file", type="csv")
     if csv_file is not None:
-
-        agent = create_csv_agent(
-            OpenAI(temperature=0), csv_file, verbose=True)
+        df = pd.read_csv(csv_file)
+        agent = create_pandas_dataframe_agent(
+            OpenAI(temperature=0), df, verbose=True)
 
         user_question = st.text_input("Ask a question about your CSV: ")
 
